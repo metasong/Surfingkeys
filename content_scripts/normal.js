@@ -521,7 +521,7 @@ var Normal = (function() {
         }
     }
 
-    function mousedownHandler(e) {
+    function scrollableMousedownHandler(e) {
         var n = e.currentTarget;
         if (!n.contains(e.target)) return;
         var index = scrollNodes.lastIndexOf(e.target);
@@ -542,15 +542,16 @@ var Normal = (function() {
             return (hasScroll(n, 'y', 16) && n.scrollHeight > 200 ) || (hasScroll(n, 'x', 16) && n.scrollWidth > 200);
         });
         nodes.sort(function(a, b) {
-            return b.contains(a);
+            return b.contains(a)?-1:1;
         });
         if (document.scrollingElement.scrollHeight > window.innerHeight
             || document.scrollingElement.scrollWidth > window.innerWidth) {
             nodes.unshift(document.scrollingElement);
         }
         nodes.forEach(function (n) {
-            n.removeEventListener('mousedown', mousedownHandler);
-            n.addEventListener('mousedown', mousedownHandler);
+            n.removeEventListener('mousedown', scrollableMousedownHandler);
+            n.addEventListener('mousedown', scrollableMousedownHandler);
+            n.dataset.hint_scrollable = true;
         });
         return nodes;
     }

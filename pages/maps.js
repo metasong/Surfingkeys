@@ -46,7 +46,7 @@ keyMaps = [
     ['dyt', 'yv', true],// yank element text
     ['dmyc', 'ymc', true],
     ['di', 'q', true], // click image or button
-    ['ds', 'zv', true], // visual element select
+    ['dvs', 'zv', true], // visual element select
 
 
     // add
@@ -118,4 +118,8 @@ function rmap(newKey, oldKey, ummapOldKey, domain, annotation) { // replacing ma
 
 keyMaps.forEach(map => {
     rmap(map[0], map[1], map[2], undefined, map[3]);
+});
+
+mapkey('ds', '#1Go to scrollable element', function() {
+    Hints.create(Normal.refreshScrollableElements(), Hints.dispatchMouseClick);
 });
