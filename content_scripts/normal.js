@@ -521,17 +521,37 @@ var Normal = (function() {
         }
     }
 
+    function mousedownHandler(e) {
+        var n = e.currentTarget;
+        if (!n.contains(e.target)) return;
+        var index = scrollNodes.lastIndexOf(e.target);
+        if (index === -1) {
+            for (var i = scrollNodes.length - 1; i >= 0; i--) {
+                if (scrollNodes[i].contains(e.target)) {
+                    index = i;break;
+                }
+            }
+            if (index === -1) console.error('error: cannot find scrollable', e.target);
+        }
+        scrollIndex = index;
+        // console.log(scrollIndex);
+    };
+
     function getScrollableElements() {
         var nodes = listElements(document.body, NodeFilter.SHOW_ELEMENT, function(n) {
             return (hasScroll(n, 'y', 16) && n.scrollHeight > 200 ) || (hasScroll(n, 'x', 16) && n.scrollWidth > 200);
         });
         nodes.sort(function(a, b) {
-            return b.scrollHeight * b.scrollWidth - a.scrollHeight * a.scrollWidth;
+            return b.contains(a);
         });
         if (document.scrollingElement.scrollHeight > window.innerHeight
             || document.scrollingElement.scrollWidth > window.innerWidth) {
             nodes.unshift(document.scrollingElement);
         }
+        nodes.forEach(function (n) {
+            n.removeEventListener('mousedown', mousedownHandler);
+            n.addEventListener('mousedown', mousedownHandler);
+        });
         return nodes;
     }
 
@@ -624,6 +644,10 @@ var Normal = (function() {
             default:
                 break;
         }
+    };
+
+    self.refreshScrollableElements = function () {
+        return scrollNodes = getScrollableElements();
     };
 
     self.getScrollableElements = function() {
