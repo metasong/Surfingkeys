@@ -293,10 +293,7 @@ var Hints = (function() {
                 left = window.pageXOffset + window.innerWidth - 32;
             }
             var link = createElement(`<div>${hintLabels[i]}</div>`);
-<<<<<<< HEAD
             if(isDev) elm.dataset.hint_lable = hintLabels[i];
-=======
->>>>>>> scrollable-hints
             if (elm.dataset.hint_scrollable) { link.classList.add('hint-scrollable'); }
             link.style.top = Math.max(pos.top + window.pageYOffset - bof.top, 0) + "px";
             link.style.left = left + "px";
