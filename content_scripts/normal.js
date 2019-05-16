@@ -531,10 +531,16 @@ var Normal = (function() {
                     index = i;break;
                 }
             }
+<<<<<<< HEAD
             if (index === -1) console.error('error: cannot find scrollable', e.target);
         }
         scrollIndex = index;
         // console.log(scrollIndex);
+=======
+            if (index === -1) console.warn('cannot find scrollable', e.target);
+        }
+        scrollIndex = index;
+>>>>>>> scrollable-hints
     };
 
     function getScrollableElements() {
@@ -542,7 +548,13 @@ var Normal = (function() {
             return (hasScroll(n, 'y', 16) && n.scrollHeight > 200 ) || (hasScroll(n, 'x', 16) && n.scrollWidth > 200);
         });
         nodes.sort(function(a, b) {
+<<<<<<< HEAD
             return b.contains(a)?-1:1;
+=======
+            if (b.contains(a)) return 1;
+            else if (a.contains(b)) return -1;
+            return b.scrollHeight * b.scrollWidth - a.scrollHeight * a.scrollWidth;
+>>>>>>> scrollable-hints
         });
         if (document.scrollingElement.scrollHeight > window.innerHeight
             || document.scrollingElement.scrollWidth > window.innerWidth) {
@@ -648,7 +660,13 @@ var Normal = (function() {
     };
 
     self.refreshScrollableElements = function () {
+<<<<<<< HEAD
         return scrollNodes = getScrollableElements();
+=======
+        scrollNodes = null;
+        initScrollIndex();
+        return scrollNodes;
+>>>>>>> scrollable-hints
     };
 
     self.getScrollableElements = function() {
@@ -979,11 +997,20 @@ var Normal = (function() {
     });
 
     self.mappings.add("f", {
-        annotation: "Open a link, press SHIFT to flip hints if they are overlapped.",
+        annotation: "Open a link, press SHIFT to flip overlapped hints, hold SPACE to hide hints",
         feature_group: 1,
         repeatIgnore: true,
         code: function() {
             Hints.create("", Hints.dispatchMouseClick);
+        }
+    });
+
+    self.mappings.add(";fs", {
+        annotation: "Display hints to focus scrollable elements",
+        feature_group: 1,
+        repeatIgnore: true,
+        code: function() {
+            Hints.create(Normal.refreshScrollableElements(), Hints.dispatchMouseClick);
         }
     });
 
