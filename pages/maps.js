@@ -41,6 +41,7 @@ keyMaps = [
     // display hints
     ['dh', '<Ctrl-h>', true],
     ['dH', '<Ctrl-j>', true],
+    ['ds', ';fs', true],
     ['dmt', 'cf', true],
     ['dt', 'gf', true],
     ['dT', 'af', true],
@@ -114,7 +115,7 @@ keyMaps = [
     ['r#', 'g#', true], // reload without hash
     ['r?', 'g?', true], // reload without query string
 
-    // set, save
+    // set
     ['=pa', 'spa', true],
     ['=pb', 'spb', true],
     ['=pd', 'spd', true],
@@ -139,9 +140,6 @@ keyMaps.forEach(map => {
     rmap(map[0], map[1], map[2], undefined, map[3]);
 });
 
-mapkey('ds', '#1Go to scrollable element', function () {
-    Hints.create(Normal.refreshScrollableElements(), Hints.dispatchMouseClick);
-});
 Front.registerInlineQuery({
     url: "https://api.shanbay.com/bdc/search/?word=",
     parseResult: function (res) {
